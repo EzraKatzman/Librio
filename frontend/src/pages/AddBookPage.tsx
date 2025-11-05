@@ -21,7 +21,7 @@ export default function AddBookPage() {
         onChange={(e) => setIsbn(e.target.value)}
         className="border p-2 rounded w-64"
       />
-      <button onClick={handleAdd} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded">
+      <button onClick={handleAdd} className="ml-2 px-4 py-2 bg-primary text-white rounded">
         Add
       </button>
     </div>

@@ -9,9 +9,9 @@ interface BookModalProps {
 }
 
 const READ_STATUSES = [
-  { value: 'unread', label: 'Unread', color: 'bg-gray-100 text-gray-700 hover:bg-gray-200' },
-  { value: 'reading', label: 'In Progress', color: 'bg-blue-100 text-blue-700 hover:bg-blue-200' },
-  { value: 'finished', label: 'Finished', color: 'bg-green-100 text-green-700 hover:bg-green-200' }
+  { value: 'unread', label: 'Unread' },
+  { value: 'reading', label: 'In Progress' },
+  { value: 'finished', label: 'Finished' }
 ];
 
 export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: BookModalProps) {
@@ -56,6 +56,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
             const halfPoint = (rect.left + rect.right) / 2;
             setHoveredRating(e.clientX < halfPoint ? starValue - 0.5 : starValue);
           }}
+          onMouseLeave={() => setHoveredRating(0)}  // Add this line
           onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
             const halfPoint = (rect.left + rect.right) / 2;
@@ -90,7 +91,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 flex gap-6"
+        className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 flex gap-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Book Cover - Left Side */}
@@ -109,17 +110,19 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
         </div>
 
         {/* Book Details - Right Side */}
-        <div className="flex-1 flex flex-col">
-          <h2 className="text-2xl font-bold mb-2">{book.title}</h2>
-          <p className="text-gray-600 mb-3">{book.author}</p>
+        <div className="flex-1 flex flex-col gap-4 text-left">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold">{book.title}</h2>
+            <p className="text-gray-500">{book.author}</p>
+          </div>
 
           {/* Genre Badges */}
           {book.genres && book.genres.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-2">
               {book.genres.map((genre: string, index: number) => (
                 <span 
                   key={index}
-                  className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full font-medium"
+                  className="px-3 py-1 bg-red-200 text-red-800 text-sm rounded-full font-medium"
                 >
                   {genre}
                 </span>
@@ -128,54 +131,67 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
           )}
 
           {/* Read Status */}
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Reading Status</label>
-            <div className="flex gap-2">
+          <div className="space-y-2">
+            <label htmlFor="readStatus" className="block text-sm font-semibold mb-2">
+              Reading Progress
+            </label>
+            <select
+              id="readStatus"
+              value={readStatus}
+              onChange={(e) => setReadStatus(e.target.value)}
+              className="inline-block min-w-[140px] px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+            >
               {READ_STATUSES.map(status => (
-                <button
-                  key={status.value}
-                  onClick={() => setReadStatus(status.value)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    readStatus === status.value 
-                      ? status.color.replace('hover:', '') + ' ring-2 ring-offset-1 ring-current' 
-                      : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                  }`}
-                >
+                <option key={status.value} value={status.value}>
                   {status.label}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
 
           {/* Star Rating */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2">
-              Rating {rating > 0 && `(${rating}/5)`}
-            </label>
+          <div className="flex items-center gap-3">
             <div className="flex gap-1">
               {renderStars()}
             </div>
+            {rating > 0 && (
+              <span className="text-sm text-gray-600">
+                {rating}
+              </span>
+            )}
           </div>
 
           {/* Action Buttons */}
           <div className="flex gap-3 mt-auto">
             <button 
               onClick={handleSave}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors font-medium"
+              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors font-medium"
             >
               Save Changes
             </button>
             <button 
               onClick={onDelete}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              className="px-4 py-2 bg-destructive text-white rounded hover:bg-destructive/90 transition-colors"
             >
               Delete
             </button>
             <button 
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors ml-auto"
+              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full transition-colors"
             >
-              Close
+              <svg 
+                className="w-5 h-5 text-gray-500 hover:text-gray-700" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
             </button>
           </div>
         </div>

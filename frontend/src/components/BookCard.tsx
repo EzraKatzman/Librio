@@ -1,20 +1,26 @@
+import { useState } from "react";
+
 interface BookCardProps {
   book: any;
   onClick: () => void;
 }
 
 export default function BookCard({ book, onClick }: BookCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div 
       onClick={onClick}
-      className="group relative w-40 h-60 rounded-lg overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+      className="group relative overflow-hidden cursor-pointer h-70 w-45"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Book Cover - static */}
       {book.coverUrl ? (
         <img 
           src={book.coverUrl} 
           alt={book.title} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       ) : (
         <div className="w-full h-full bg-gray-300 flex items-center justify-center">
@@ -22,29 +28,32 @@ export default function BookCard({ book, onClick }: BookCardProps) {
         </div>
       )}
 
-      {/* Translucent overlay with details - slides up from bottom on hover */}
-      <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-[40%] bg-black/25 backdrop-blur-sm transition-all duration-300 flex flex-col items-center justify-center gap-1 px-3 overflow-hidden">
-        <h3 className="font-bold text-center text-sm line-clamp-2 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
-          {book.title}
-        </h3>
-        <p className="text-xs text-center line-clamp-1 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
-          {book.author}
-        </p>
-        
-        {/* Genre Badges */}
-        {book.genres && book.genres.length > 0 && (
-          <div className="flex flex-wrap gap-1 justify-center mt-1">
-            {book.genres.slice(0, 2).map((genre: string, index: number) => (
-              <span 
-                key={index}
-                className="px-2 py-0.5 bg-white/20 backdrop-blur-sm text-white text-[10px] rounded-full border border-white/30"
-              >
-                {genre}
-              </span>
-            ))}
+      {isHovered && (
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent transition-opacity">
+          <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-left">
+            <h3 className="font-semibold text-lg mb-1">
+              {book.title}
+            </h3>
+            <p className="text-sm text-white/90 mb-2">
+              {book.author}
+            </p>
+
+            {/* Genre Badges */}
+            {book.genres && book.genres.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-1">
+                {book.genres.slice(0, 2).map((genre: string, index: number) => (
+                  <span 
+                    key={index}
+                    className="inline-block px-2 py-1 bg-white/20 backdrop-blur-sm rounded text-xs"
+                  >
+                    {genre}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
