@@ -20,7 +20,7 @@ model Book {
   isbn        String   @unique
   coverUrl    String?
   genres      Json?
-  rating      Int?
+  rating      Float?   // Changed from Int to Float for 0.5 increments
   readStatus  String?  // unread | reading | finished
   ebookPath   String?
   dateAdded   DateTime @default(now())

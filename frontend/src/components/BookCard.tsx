@@ -23,13 +23,27 @@ export default function BookCard({ book, onClick }: BookCardProps) {
       )}
 
       {/* Translucent overlay with details - slides up from bottom on hover */}
-      <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-[40%] bg-black/25 backdrop-blur-sm transition-all duration-300 flex flex-col items-center justify-center gap-2 px-3 overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-[40%] bg-black/25 backdrop-blur-sm transition-all duration-300 flex flex-col items-center justify-center gap-1 px-3 overflow-hidden">
         <h3 className="font-bold text-center text-sm line-clamp-2 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
           {book.title}
         </h3>
         <p className="text-xs text-center line-clamp-1 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">
           {book.author}
         </p>
+        
+        {/* Genre Badges */}
+        {book.genres && book.genres.length > 0 && (
+          <div className="flex flex-wrap gap-1 justify-center mt-1">
+            {book.genres.slice(0, 2).map((genre: string, index: number) => (
+              <span 
+                key={index}
+                className="px-2 py-0.5 bg-white/20 backdrop-blur-sm text-white text-[10px] rounded-full border border-white/30"
+              >
+                {genre}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

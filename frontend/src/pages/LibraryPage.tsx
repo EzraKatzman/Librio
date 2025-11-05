@@ -15,7 +15,7 @@ export default function LibraryPage() {
       <BookList
         books={books}
         onDelete={(id) => deleteBook(id)}
-        onEdit={(id) => alert(`Edit book ${id}`)}
+        onUpdate={loadBooks}
       />
     </div>
   );

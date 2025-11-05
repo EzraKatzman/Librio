@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import BookCard from "./BookCard";
 import BookModal from "./BookModal";
+import { updateBook } from "../api/books";
 
 interface BookListProps {
   books: any[];
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
+  onUpdate?: () => void; // Callback to refresh book list
 }
 
-export default function BookList({ books, onEdit, onDelete }: BookListProps) {
+export default function BookList({ books, onEdit, onDelete, onUpdate }: BookListProps) {
   const [selectedBook, setSelectedBook] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -17,9 +19,15 @@ export default function BookList({ books, onEdit, onDelete }: BookListProps) {
     setIsModalOpen(true);
   };
 
-  const handleEdit = () => {
-    if (selectedBook && onEdit) {
-      onEdit(selectedBook.id);
+  const handleEdit = async (updates: any) => {
+    if (selectedBook) {
+      try {
+        await updateBook(selectedBook.id, updates);
+        if (onUpdate) onUpdate(); // Refresh the book list
+        if (onEdit) onEdit(selectedBook.id);
+      } catch (error) {
+        console.error('Failed to update book:', error);
+      }
     }
     setIsModalOpen(false);
   };
@@ -33,7 +41,7 @@ export default function BookList({ books, onEdit, onDelete }: BookListProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-items-center">
         {books.map(book => (
           <BookCard
             key={book.id}

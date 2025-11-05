@@ -68,6 +68,18 @@ export const updateBook = async (req: express.Request, res: express.Response) =>
     const { id } = req.params;
     const data = req.body;
     try {
+        if (data.rating !== undefined) {
+            const rating = parseFloat(data.rating);
+            if (isNaN(rating) || rating < 0 || rating > 5) {
+                return res.status(400).json({ error: "Rating must be a number between 0 and 5" });
+            }
+            data.rating = rating;
+        }
+
+        if (data.readStatus && !["unread", "reading", "read"].includes(data.readStatus)) {
+            return res.status(400).json({ error: "Invalid read status" });
+        }
+
         const updatedBook = await prisma.book.update({ where: { id }, data });
         res.json(updatedBook);
     } catch (err) {
