@@ -14,3 +14,6 @@
     - Ctrl + E -> edit book (when book selected)
     - Ctrl + S -> save changes to book (when modal open)
     
+### Longer Term:
+- User profiles + login
+- Migrate to postgres
