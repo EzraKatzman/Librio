@@ -15,7 +15,7 @@ interface Book {
 
 interface BooksStore {
     books: Book[];
-    loadBooks: () => Promise<void>;
+    loadBooks: (search?: string) => Promise<void>;
     addBook: (isbn: string) => Promise<void>;
     updateBook: (id: string, data: Partial<Book>) => Promise<void>;
     deleteBook: (id: string) => Promise<void>;
@@ -23,8 +23,8 @@ interface BooksStore {
 
 export const useBooksStore = create<BooksStore>((set, get) => ({
     books: [],
-    loadBooks: async () => {
-        const data = await fetchBooks();
+    loadBooks: async (search?: string) => {
+        const data = await fetchBooks(search);
         set({ books: data });
     }, 
     addBook: async (isbn: string) => {

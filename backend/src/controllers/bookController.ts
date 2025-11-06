@@ -29,10 +29,11 @@ export const getBooks = async (req: express.Request, res: express.Response) => {
     try {
         let where = {};
         if (search) {
+            const searchStr = String(search).toLowerCase();
             where = {
                 OR: [
-                    { title: { contains: String(search), mode: "insensitive" } },
-                    { author: { contains: String(search), mode: "insensitive" } },
+                    { title: { contains: String(searchStr) } },
+                    { author: { contains: String(searchStr) } },
                 ],
           };
         }

@@ -4,7 +4,7 @@ interface SearchBarProps {
     placeholder?: string;
 }
 
-export default function SearchBar({ value, onChange, placeholder = "Search by title, author, or genre..." }: SearchBarProps) {
+export default function SearchBar({ value, onChange, placeholder = "Search by title or author..." }: SearchBarProps) {
     return (
         <div className="relative w-full max-w-2xl mx-auto ml-4">
             <div>

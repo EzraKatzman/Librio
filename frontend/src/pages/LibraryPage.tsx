@@ -17,11 +17,11 @@ export default function LibraryPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      loadBooks();
+      loadBooks(searchQuery);
     }, 300); // Debounce search by 300ms
 
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [searchQuery, loadBooks]);
 
    return (
     <div className="min-h-screen bg-background">
