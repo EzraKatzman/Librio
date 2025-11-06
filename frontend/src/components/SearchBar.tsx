@@ -13,7 +13,7 @@ export default function SearchBar({ value, onChange, placeholder = "Search by ti
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     placeholder={placeholder}
-                    className="w-full px-4 py-2 pl-10 rounded-lg bg-border/30 focus:outline-none focus-ring-primary"
+                    className="w-full px-4 py-2 pl-10 rounded-lg bg-border/20 focus:outline-none focus-ring-primary"
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 -translate-x-1 w-7 h-7 rounded-full flex items-center justify-center">
                     <svg

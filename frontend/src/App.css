@@ -26,6 +26,52 @@
   }
 }
 
+@layer utilities {
+  /* Chrome, Safari, Edge */
+  input[type="range"].primary::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 8px;
+    background: linear-gradient(
+      var(--primary) 0 0
+    ) left/var(--fill-percent, 0%) 100% no-repeat,
+    #e5e7eb; /* fallback gray track */
+  }
+
+  input[type="range"].primary::-webkit-slider-thumb {
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    margin-top: -4px; /* center thumb vertically */
+    cursor: pointer;
+  }
+
+  /* Firefox */
+  input[type="range"].primary::-moz-range-track {
+    height: 8px;
+    border-radius: 8px;
+    background: #e5e7eb;
+  }
+
+  input[type="range"].primary::-moz-range-progress {
+    height: 8px;
+    border-radius: 8px;
+    background: var(--primary);
+  }
+
+  input[type="range"].primary::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+  }
+}
+
+
 :root {
     --primary: hsl(350 70% 42%);
     --primary-light: hsl(350 70% 98%);

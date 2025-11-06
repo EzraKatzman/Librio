@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useBooksStore } from "../store/useBooksStore";
 import BookList from "../components/BookList";
 import SearchBar from "../components/SearchBar";
+import FilterDropdown, { type FilterOptions } from "../components/FilterDropdown";
 
 export default function LibraryPage() {
   const { books, loadBooks, deleteBook, addBook } = useBooksStore();
   const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState<FilterOptions>({
+    readStatus: [],
+    rating: 0,
+    genres: [],
+    sortBy: "date_desc"
+  });
 
   const [isbn, setIsbn] = useState("");
 
@@ -18,12 +25,73 @@ export default function LibraryPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       loadBooks(searchQuery);
-    }, 300); // Debounce search by 300ms
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [searchQuery, loadBooks]);
 
-   return (
+  // Get unique genres from all books
+  const availableGenres = useMemo(() => {
+    const genreSet = new Set<string>();
+    books.forEach(book => {
+      if (book.genres) {
+        book.genres.forEach(genre => genreSet.add(genre));
+      }
+    });
+    return Array.from(genreSet).sort();
+  }, [books]);
+
+  // Apply filters and sorting
+  const filteredBooks = useMemo(() => {
+    let filtered = [...books];
+
+    // Filter by read status
+    if (filters.readStatus.length > 0) {
+      filtered = filtered.filter(book => 
+        filters.readStatus.includes(book.readStatus || "unread")
+      );
+    }
+
+    // Filter by rating
+    if (filters.rating > 0) {
+      filtered = filtered.filter(book => 
+        book.rating && book.rating >= filters.rating
+      );
+    }
+
+    // Filter by genres (union - book must have at least one selected genre)
+    if (filters.genres.length > 0) {
+      filtered = filtered.filter(book => 
+        book.genres && book.genres.some(g => filters.genres.includes(g))
+      );
+    }
+
+    // Sort
+    switch (filters.sortBy) {
+      case "title_asc":
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "title_desc":
+        filtered.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case "author_asc":
+        filtered.sort((a, b) => a.author.localeCompare(b.author));
+        break;
+      case "rating_desc":
+        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        break;
+      case "rating_asc":
+        filtered.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+        break;
+      case "date_desc":
+      default:
+        break;
+    }
+
+    return filtered;
+  }, [books, filters]);
+
+  return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -31,7 +99,8 @@ export default function LibraryPage() {
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-foreground">My Library</h1>
               <p className="mt-1 text-sm text-gray-500">
-                {books.length} {books.length === 1 ? "book" : "books"} in your collection
+                {filteredBooks.length} {filteredBooks.length === 1 ? "book" : "books"} 
+                {filteredBooks.length !== books.length && ` (filtered from ${books.length})`}
               </p>
             </div>
           </div>
@@ -47,16 +116,12 @@ export default function LibraryPage() {
                 value={searchQuery}
                 onChange={setSearchQuery}
               />
-              <button className="py-2.5 px-4 rounded-lg bg-border/30 hover:bg-border/20 text-primary focus-ring-primary cursor-pointer">
-                <svg
-                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
-                  className="w-5 h-5"
-                >
-                  <line x1="12" y1="9" x2="12" y2="22" /><line x1="12" y1="2" x2="12" y2="5" /><line x1="5" y1="16" x2="5" y2="22" /><line x1="5" y1="2" x2="5" y2="12" />
-                  <line x1="19" y1="16" x2="19" y2="22" /><line x1="19" y1="2" x2="19" y2="12" /><line x1="16" y1="16" x2="22" y2="16" /><line x1="9" y1="9" x2="15" y2="9" /><line x1="2" y1="16" x2="8" y2="16" />
-                </svg>
-              </button>
-              
+              <FilterDropdown 
+                onFilterChange={setFilters}
+                availableGenres={availableGenres}
+                currentFilters={filters}
+                allBooks={books}
+              />
             </div>
             <div className="flex items-center">
               <button onClick={handleAdd} className="px-4 py-2 mr-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 focus-ring-primary focus:ring-destructive/40 focus:bg-primary/90 cursor-pointer">
@@ -81,13 +146,22 @@ export default function LibraryPage() {
       </div>
 
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <BookList
-          books={books}
-          onDelete={(id) => deleteBook(id)}
-          onUpdate={loadBooks}
-        />
+        {filteredBooks.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">
+              {books.length === 0 
+                ? "No books in your library yet." 
+                : "No books match your current filters."}
+            </p>
+          </div>
+        ) : (
+          <BookList
+            books={filteredBooks}
+            onDelete={(id) => deleteBook(id)}
+            onUpdate={() => loadBooks(searchQuery)}
+          />
+        )}
       </div>
-      
     </div>
   );
 }
