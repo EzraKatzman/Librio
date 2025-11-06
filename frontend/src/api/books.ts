@@ -2,8 +2,9 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/books";
 
-export const fetchBooks = async () => {
-    return (await axios.get(API_URL)).data;
+export const fetchBooks = async (search?: string) => {
+    const params = search ? { search } : {};
+    return (await axios.get(API_URL, { params })).data;
 };
 
 export const addBooksByISBN = async (isbn: string) => {

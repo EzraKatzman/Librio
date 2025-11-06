@@ -5,8 +5,16 @@ interface BookCardProps {
   onClick: () => void;
 }
 
+const STATUS_INFO: { [key: string]: { label: string; color: string } } = {
+  unread: { label: "Unread", color: "bg-gray-700/90 text-white" },
+  reading: { label: "In Progress", color: "bg-blue-500/80 text-white" },
+  finished: { label: "Complete", color: "bg-green-500/80 text-white" },
+};
+
 export default function BookCard({ book, onClick }: BookCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const readStatus = book.readStatus || 'unread';
+  const statusInfo = STATUS_INFO[readStatus as keyof typeof STATUS_INFO] || STATUS_INFO['unread'];
 
   return (
     <div 
@@ -30,6 +38,11 @@ export default function BookCard({ book, onClick }: BookCardProps) {
 
       {isHovered && (
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent transition-opacity">
+          <div className="absolute top-3 right-3">
+            <span className={`inline-block px-2 py-1 backrop-blur-sm rounded text-xs font-medium ${statusInfo.color}`}>
+              {statusInfo.label}
+            </span>
+          </div>
           <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-left">
             <h3 className="font-semibold text-lg mb-1">
               {book.title}

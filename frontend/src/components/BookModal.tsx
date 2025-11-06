@@ -11,7 +11,7 @@ interface BookModalProps {
 const READ_STATUSES = [
   { value: 'unread', label: 'Unread' },
   { value: 'reading', label: 'In Progress' },
-  { value: 'finished', label: 'Finished' }
+  { value: 'finished', label: 'Complete' }
 ];
 
 export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: BookModalProps) {
@@ -91,7 +91,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 flex gap-6 relative"
+        className="bg-primary-light rounded-md shadow-xl max-w-2xl w-full p-6 flex gap-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Book Cover - Left Side */}
@@ -100,7 +100,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
             <img 
               src={book.coverUrl} 
               alt={book.title} 
-              className="w-48 h-72 object-cover rounded-lg shadow-md"
+              className="w-48 h-72 object-cover rounded-sm shadow-xs"
             />
           ) : (
             <div className="w-48 h-72 bg-gray-300 rounded-lg flex items-center justify-center">
@@ -139,7 +139,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
               id="readStatus"
               value={readStatus}
               onChange={(e) => setReadStatus(e.target.value)}
-              className="inline-block min-w-[140px] px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              className="inline-block min-w-[140px] px-4 py-2 rounded-lg border bg-primary-light border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors cursor-pointer"
             >
               {READ_STATUSES.map(status => (
                 <option key={status.value} value={status.value}>
@@ -165,19 +165,19 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
           <div className="flex gap-3 mt-auto">
             <button 
               onClick={handleSave}
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors font-medium"
+              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors cursor-pointer"
             >
               Save Changes
             </button>
             <button 
               onClick={onDelete}
-              className="px-4 py-2 bg-destructive text-white rounded hover:bg-destructive/90 transition-colors"
+              className="px-4 py-2 bg-destructive text-white rounded hover:bg-destructive/90 transition-colors cursor-pointer"
             >
               Delete
             </button>
             <button 
               onClick={onClose}
-              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
             >
               <svg 
                 className="w-5 h-5 text-gray-500 hover:text-gray-700" 

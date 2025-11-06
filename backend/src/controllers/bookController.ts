@@ -76,7 +76,7 @@ export const updateBook = async (req: express.Request, res: express.Response) =>
             data.rating = rating;
         }
 
-        if (data.readStatus && !["unread", "reading", "read"].includes(data.readStatus)) {
+        if (data.readStatus && !["unread", "reading", "finished"].includes(data.readStatus)) {
             return res.status(400).json({ error: "Invalid read status" });
         }
 
