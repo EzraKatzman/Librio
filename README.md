@@ -2,6 +2,7 @@
 - Filters and sorting
 - Dark mode
 - Companion scanner app
+- *Abstraction*
 - Toast notifications
     - For saving changes
     - For adding book
