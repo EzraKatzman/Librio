@@ -2,6 +2,7 @@
 - Filters and sorting
 - Dark mode
 - Companion scanner app
+- *Abstraction*
 - Toast notifications
     - For saving changes
     - For adding book
@@ -13,3 +14,6 @@
     - Ctrl + E -> edit book (when book selected)
     - Ctrl + S -> save changes to book (when modal open)
     
+### Longer Term:
+- User profiles + login
+- Migrate to postgres
