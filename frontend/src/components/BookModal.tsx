@@ -139,7 +139,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
               id="readStatus"
               value={readStatus}
               onChange={(e) => setReadStatus(e.target.value)}
-              className="inline-block min-w-[140px] px-4 py-2 rounded-lg border bg-primary-light border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition-colors cursor-pointer"
+              className="inline-block min-w-[140px] px-4 py-2 rounded-lg border bg-primary-light border-gray-300 focus-ring-primary transition-colors cursor-pointer"
             >
               {READ_STATUSES.map(status => (
                 <option key={status.value} value={status.value}>
@@ -165,22 +165,22 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
           <div className="flex gap-3 mt-auto">
             <button 
               onClick={handleSave}
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors cursor-pointer"
+              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors focus-ring-primary focus:ring-destructive/40 focus:bg-primary/90 cursor-pointer"
             >
               Save Changes
             </button>
             <button 
               onClick={onDelete}
-              className="px-4 py-2 bg-destructive text-white rounded hover:bg-destructive/90 transition-colors cursor-pointer"
+              className="px-4 py-2 bg-destructive text-white rounded hover:bg-destructive/90 transition-colors focus-ring-primary focus:bg-destructive/90 cursor-pointer"
             >
               Delete
             </button>
             <button 
               onClick={onClose}
-              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+              className="absolute top-2 right-2 p-1 hover:bg-red-200 text-gray-500 hover:text-red-700 rounded-full transition-colors focus-ring-primary cursor-pointer"
             >
               <svg 
-                className="w-5 h-5 text-gray-500 hover:text-gray-700" 
+                className="w-5 h-5" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"

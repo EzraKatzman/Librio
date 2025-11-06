@@ -37,7 +37,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
       )}
 
       {isHovered && (
-        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent transition-opacity">
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-transparent transition-opacity">
           <div className="absolute top-3 right-3">
             <span className={`inline-block px-2 py-1 backrop-blur-sm rounded text-xs font-medium ${statusInfo.color}`}>
               {statusInfo.label}

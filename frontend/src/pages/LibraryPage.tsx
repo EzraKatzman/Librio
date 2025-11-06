@@ -42,14 +42,24 @@ export default function LibraryPage() {
       <div className="border-b border-border bg-card">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-4">
-            <div className="relative flex-1 sm:max-w-md">
+            <div className="relative flex items-center gap-2 flex-1 sm:max-w-md">
               <SearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
               />
+              <button className="py-2.5 px-4 rounded-lg bg-border/30 hover:bg-border/20 text-primary focus-ring-primary cursor-pointer">
+                <svg
+                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
+                  className="w-5 h-5"
+                >
+                  <line x1="12" y1="9" x2="12" y2="22" /><line x1="12" y1="2" x2="12" y2="5" /><line x1="5" y1="16" x2="5" y2="22" /><line x1="5" y1="2" x2="5" y2="12" />
+                  <line x1="19" y1="16" x2="19" y2="22" /><line x1="19" y1="2" x2="19" y2="12" /><line x1="16" y1="16" x2="22" y2="16" /><line x1="9" y1="9" x2="15" y2="9" /><line x1="2" y1="16" x2="8" y2="16" />
+                </svg>
+              </button>
+              
             </div>
             <div className="flex items-center">
-              <button onClick={handleAdd} className="px-4 py-2 mr-4 rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
+              <button onClick={handleAdd} className="px-4 py-2 mr-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 focus-ring-primary focus:ring-destructive/40 focus:bg-primary/90 cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
