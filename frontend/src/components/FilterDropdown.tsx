@@ -11,7 +11,6 @@ export interface FilterOptions {
   readStatus: string[];
   rating: number;
   genres: string[];
-  sortBy: string;
 }
 
 const READ_STATUSES = [
@@ -20,22 +19,12 @@ const READ_STATUSES = [
   { value: "finished", label: "Finished", color: "bg-green-500/80 text-white" }
 ];
 
-const SORT_OPTIONS = [
-  { value: "date_desc", label: "Recently Added" },
-  { value: "title_asc", label: "Title (A-Z)" },
-  { value: "title_desc", label: "Title (Z-A)" },
-  { value: "author_asc", label: "Author (A-Z)" },
-  { value: "rating_desc", label: "Rating (High to Low)" },
-  { value: "rating_asc", label: "Rating (Low to High)" }
-];
-
 export default function FilterDropdown({ onFilterChange, availableGenres, currentFilters, allBooks }: FilterDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   // Local state for draft filters
   const [readStatus, setReadStatus] = useState<string[]>(currentFilters.readStatus);
   const [rating, setRating] = useState<number>(currentFilters.rating);
   const [genres, setGenres] = useState<string[]>(currentFilters.genres);
-  const [sortBy, setSortBy] = useState(currentFilters.sortBy);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -45,7 +34,6 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
     setReadStatus(currentFilters.readStatus);
     setRating(currentFilters.rating);
     setGenres(currentFilters.genres);
-    setSortBy(currentFilters.sortBy);
   }, [currentFilters]);
 
   // Close dropdown when clicking outside
@@ -113,13 +101,12 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
     setReadStatus([]);
     setRating(0);
     setGenres([]);
-    setSortBy("date_desc");
-    onFilterChange({ readStatus: [], rating: 0, genres: [], sortBy: "date_desc" });
+    onFilterChange({ readStatus: [], rating: 0, genres: []});
     setIsOpen(false);
   };
 
   const applyFilters = () => {
-    onFilterChange({ readStatus, rating, genres, sortBy });
+    onFilterChange({ readStatus, rating, genres });
     setIsOpen(false);
   };
 
@@ -174,7 +161,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                   <button
                     key={status.value}
                     onClick={() => toggleReadStatus(status.value)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                       readStatus.includes(status.value)
                         ? status.color
                         : "bg-border/20 text-foreground hover:bg-border/30"
@@ -227,7 +214,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                     <button
                       key={genre}
                       onClick={() => toggleGenre(genre)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                         genres.includes(genre)
                           ? "bg-red-200 text-red-800"
                           : "bg-border/20 text-foreground hover:bg-border/30"
@@ -239,20 +226,6 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                 </div>
               </div>
             )}
-
-            {/* Sort By */}
-            <div>
-              <label className="block text-sm font-semibold mb-3">Sort By</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-border bg-background focus:ring-2 focus:ring-primary focus:border-primary"
-              >
-                {SORT_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </div>
           </div>
 
           {/* Footer with Clear and Apply buttons */}
@@ -260,7 +233,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
             <button
               onClick={clearFilters}
               className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={readStatus.length === 0 && rating === 0 && genres.length === 0 && sortBy === "date_desc"}
+              disabled={readStatus.length === 0 && rating === 0 && genres.length === 0}
             >
               Clear
             </button>

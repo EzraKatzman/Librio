@@ -3,6 +3,7 @@ import { useBooksStore } from "../store/useBooksStore";
 import BookList from "../components/BookList";
 import SearchBar from "../components/SearchBar";
 import FilterDropdown, { type FilterOptions } from "../components/FilterDropdown";
+import SortDropdown from "../components/SortDropdown";
 
 export default function LibraryPage() {
   const { books, loadBooks, deleteBook, addBook } = useBooksStore();
@@ -10,9 +11,10 @@ export default function LibraryPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     readStatus: [],
     rating: 0,
-    genres: [],
-    sortBy: "date_desc"
+    genres: []
   });
+
+  const [sortBy, setSortBy] = useState("date_desc");
 
   const [isbn, setIsbn] = useState("");
 
@@ -67,7 +69,7 @@ export default function LibraryPage() {
     }
 
     // Sort
-    switch (filters.sortBy) {
+    switch (sortBy) {
       case "title_asc":
         filtered.sort((a, b) => a.title.localeCompare(b.title));
         break;
@@ -89,7 +91,7 @@ export default function LibraryPage() {
     }
 
     return filtered;
-  }, [books, filters]);
+  }, [books, filters, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -121,6 +123,10 @@ export default function LibraryPage() {
                 availableGenres={availableGenres}
                 currentFilters={filters}
                 allBooks={books}
+              />
+              <SortDropdown
+                currentSort={sortBy}
+                onSortChange={setSortBy}
               />
             </div>
             <div className="flex items-center">
