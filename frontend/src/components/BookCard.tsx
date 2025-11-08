@@ -6,9 +6,9 @@ interface BookCardProps {
 }
 
 const STATUS_INFO: { [key: string]: { label: string; color: string } } = {
-  unread: { label: "Unread", color: "bg-gray-700/90 text-white" },
-  reading: { label: "In Progress", color: "bg-blue-500/80 text-white" },
-  finished: { label: "Complete", color: "bg-green-500/80 text-white" },
+  unread: { label: "Unread", color: "bg-neutral/90 text-white" },
+  reading: { label: "In Progress", color: "bg-info text-white" },
+  finished: { label: "Complete", color: "bg-confirm text-white" },
 };
 
 export default function BookCard({ book, onClick }: BookCardProps) {
@@ -47,7 +47,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
             <h3 className="font-semibold text-lg mb-1">
               {book.title}
             </h3>
-            <p className="text-sm text-white/90 mb-2">
+            <p className="text-sm text-white/90 leading-none mb-2">
               {book.author}
             </p>
 

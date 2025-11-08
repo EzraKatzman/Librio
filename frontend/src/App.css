@@ -75,17 +75,24 @@
 :root {
     --primary: hsl(350 70% 42%);
     --primary-light: hsl(350 70% 98%);
+    --compliment: hsl(170, 70%, 42%);
+    --compliment-light: hsl(170, 70%, 98%);
     --background: hsl(0 0% 100%);
     --foreground: hsl(15 18% 12%);
     --primary-foreground: oklch(0.98 0 0);
-    --destructive: hsl(0 84.2% 60.2%);
+    --destructive: hsl(0 70% 42%);
     --destructive-foreground: oklch(0.98 0 0);
+    --info: hsl(209 70% 42%);
+    --info-foreground: ocklch(0.98 0 0);
+    --confirm: hsl(103 70% 42%);
+    --confirm-foreground: oklch(0.98 0 0);
+    --neutral: hsla(210, 14%, 34%);
     --border: hsl(12 18% 89%);
 }
 
 .dark {
-    --primary: oklch(0.65 0.2 250);
-    --primary-light: oklch(0.18 0.03 250);;
+    --primary: hsl(350 75% 58%);
+    --primary-light: oklch(0.18 0.03 250);
     --background: oklch(0.12 0 0);
     --foreground: oklch(0.92 0 0);
     --primary-foreground: oklch(0.12 0 0);
@@ -101,7 +108,14 @@
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-primary-light: var(--primary-light);
+    --color-compliment: var(--compliment);
+    --color-compliment-light: var(--compliment-light);
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-confirm: var(--confirm);
+    --color-confirm-foreground: var(--confirm-foreground);
+    --color-neutral: var(--neutral);
     --color-border: var(--border);
 }

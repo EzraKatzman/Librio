@@ -91,7 +91,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
       onClick={onClose}
     >
       <div 
-        className="bg-primary-light rounded-md shadow-xl max-w-2xl w-full p-6 flex gap-6 relative"
+        className="bg-white rounded-md shadow-xl max-w-2xl w-full p-6 flex gap-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Book Cover - Left Side */}
