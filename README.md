@@ -3,9 +3,7 @@
 - Companion scanner app
 - *Abstraction*
 - Toast notifications
-    - For saving changes
     - For adding book
-    - For applying filters
 
 - Keyboard shortcuts
     - Ctrl + K -> search
