@@ -36,9 +36,12 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
   }, [readStatus]);
 
   useEffect(() => {
-    setReadStatus(book.readStatus || 'unread');
-    setRating(book.rating || 0);
-  }, [book]);
+    if (isOpen) {
+      setReadStatus(book.readStatus || 'unread');
+      setRating(book.rating || 0);
+      setHoveredRating(0);
+    }
+  }, [book, isOpen]);
 
   const handleSave = () => {
     const finalRating = hoveredRating || rating;

@@ -13,7 +13,7 @@
     - Ctrl + S -> save changes to book (when modal open)
 
 ### Bugs:
-- Book modal keeps last clicked status even if not saved - should revert to stored info on open
+
     
 ### Longer Term:
 - User profiles + login
