@@ -39,12 +39,12 @@ export default function BookCard({ book, onClick }: BookCardProps) {
       {isHovered && (
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-transparent transition-opacity">
           <div className="absolute top-3 right-3">
-            <span className={`inline-block px-2 py-1 backrop-blur-sm rounded text-xs font-medium ${statusInfo.color}`}>
+            <span className={`inline-block px-2 py-1 backrop-blur-md rounded text-xs font-medium ${statusInfo.color}`}>
               {statusInfo.label}
             </span>
           </div>
           <div className="absolute bottom-0 left-0 right-0 p-4 text-white text-left">
-            <h3 className="font-semibold text-lg mb-1">
+            <h3 className="font-semibold leading-5 text-lg mb-1">
               {book.title}
             </h3>
             <p className="text-sm text-white/90 mb-2">
@@ -57,7 +57,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
                 {book.genres.slice(0, 2).map((genre: string, index: number) => (
                   <span 
                     key={index}
-                    className="inline-block px-2 py-1 bg-border/20 backdrop-blur-sm rounded text-xs"
+                    className="inline-block px-2 py-1 bg-border/20 backdrop-blur-md rounded text-xs"
                   >
                     {genre}
                   </span>

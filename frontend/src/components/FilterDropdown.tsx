@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
+import { useToast } from "../context/ToastContext";
 
 interface FilterDropdownProps {
   onFilterChange: (filters: FilterOptions) => void;
@@ -20,6 +21,7 @@ const READ_STATUSES = [
 ];
 
 export default function FilterDropdown({ onFilterChange, availableGenres, currentFilters, allBooks }: FilterDropdownProps) {
+  const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   // Local state for draft filters
   const [readStatus, setReadStatus] = useState<string[]>(currentFilters.readStatus);
@@ -102,11 +104,16 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
     setRating(0);
     setGenres([]);
     onFilterChange({ readStatus: [], rating: 0, genres: []});
+    showToast("Filters cleared", "info");
   };
 
   const applyFilters = () => {
     onFilterChange({ readStatus, rating, genres });
     setIsOpen(false);
+    const count = readStatus.length + (rating > 0 ? 1 : 0) + genres.length;
+    if (count === 0) return;
+    const filterText = count === 1 ? "Filter" : "Filters";
+    showToast(`${count} ${filterText} applied`, "success");
   };
 
   const activeFilterCount = currentFilters.readStatus.length + (currentFilters.rating > 0 ? 1 : 0) + currentFilters.genres.length;
@@ -261,7 +268,9 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
               onClick={applyFilters}
               className="flex-1 px-6 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
-              See {previewCount} {previewCount === 1 ? "result" : "results"}
+              {readStatus.length === 0 && rating === 0 && genres.length === 0
+                ? "See all results"
+                : `See ${previewCount} ${previewCount === 1 ? "result" : "results"}`}
             </button>
           </div>
         </div>

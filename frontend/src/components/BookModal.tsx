@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useToast } from "../context/ToastContext";
 
 interface BookModalProps {
   book: any;
@@ -15,6 +16,7 @@ const READ_STATUSES = [
 ];
 
 export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: BookModalProps) {
+  const { showToast } = useToast();
   const [readStatus, setReadStatus] = useState(book.readStatus || 'unread');
   const [rating, setRating] = useState(book.rating || 0);
   const [hoveredRating, setHoveredRating] = useState(0);
@@ -40,11 +42,17 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
   if (!isOpen) return null;
 
   const handleSave = () => {
-    // Use hoveredRating if it exists, otherwise use current rating
     const finalRating = hoveredRating || rating;
     onEdit({ readStatus, rating: finalRating });
     setRating(finalRating);
     setHoveredRating(0);
+    showToast("Saved changes!", "success")
+    onClose();
+  };
+
+  const handleDelete = () => {
+    onDelete();
+    showToast('Book Deleted', 'error');
     onClose();
   };
 
@@ -199,7 +207,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
               Save
             </button>
             <button 
-              onClick={onDelete}
+              onClick={handleDelete}
               className="flex items-center gap-2 px-4 py-2 bg-border/30 text-foreground/80 
                 hover:bg-destructive/10 hover:text-destructive rounded transition-colors 
                 focus-ring-primary focus:bg-destructive/10 cursor-pointer"
