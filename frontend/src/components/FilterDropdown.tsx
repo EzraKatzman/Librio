@@ -123,7 +123,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative py-2.5 px-4 rounded-lg bg-border/20 hover:bg-border/40 text-primary focus-ring-primary cursor-pointer active:scale-95 transition-transform duration-100"
+        className="relative py-2.5 px-4 rounded-lg bg-border-light hover:bg-border/40 text-primary focus-ring-primary cursor-pointer active:scale-95 transition-transform duration-100"
       >
         <svg
           viewBox="0 0 24 24"
@@ -155,13 +155,13 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute left-0 top-full mt-2 w-96 bg-white border border-border rounded-lg shadow-xl z-50 flex flex-col max-h-[80vh]"
+          className="absolute left-0 top-full mt-2 w-96 bg-background text-foreground border border-border rounded-lg shadow-xl z-50 flex flex-col max-h-[80vh]"
         >
           <div className="relative border-b border-border py-4">
             <span className="text-md font-semibold block text-center">Filters</span>
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-destructive rounded-full transition-colors focus-ring-primary cursor-pointer"
+              className="absolute top-1/2 right-4 -translate-y-1/2 text-foreground hover:text-destructive rounded-full transition-colors focus-ring-primary cursor-pointer"
               >
               <svg 
                 className="h-5 w-5"
@@ -191,7 +191,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                       readStatus.includes(status.value)
                         ? status.color
-                        : "bg-border/20 text-foreground hover:bg-border/40"
+                        : "bg-border-light text-foreground hover:bg-border/40"
                     }`}
                   >
                     {status.label}
@@ -244,7 +244,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                         genres.includes(genre)
                           ? "bg-red-200 text-red-800"
-                          : "bg-border/20 text-foreground hover:bg-border/40"
+                          : "bg-border-light text-foreground hover:bg-border/40"
                       }`}
                     >
                       {genre}
@@ -256,7 +256,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
           </div>
 
           {/* Footer with Clear and Apply buttons */}
-          <div className="border-t border-border p-4 bg-card rounded-b-lg flex items-center justify-between gap-3">
+          <div className="border-t border-border p-4 bg-background text-foreground rounded-b-lg flex items-center justify-between gap-3">
             <button
               onClick={clearFilters}
               className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-destructive transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

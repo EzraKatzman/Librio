@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useBooksStore } from "../store/useBooksStore";
 import BookList from "../components/BookList";
 import SearchBar from "../components/SearchBar";
 import FilterDropdown, { type FilterOptions } from "../components/FilterDropdown";
 import SortDropdown from "../components/SortDropdown";
+import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 
 export default function LibraryPage() {
   const { books, loadBooks, deleteBook, addBook } = useBooksStore();
@@ -15,8 +16,10 @@ export default function LibraryPage() {
   });
 
   const [sortBy, setSortBy] = useState("date_desc");
-
   const [isbn, setIsbn] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handleAdd = async () => {
     if (!isbn) return;
@@ -93,9 +96,18 @@ export default function LibraryPage() {
     return filtered;
   }, [books, filters, sortBy]);
 
+  useKeyboardShortcuts([
+    { key: '/', ctrl: true, 
+      callback: () => {
+        searchInputRef.current?.focus();
+      }
+    },
+    { key: 'a', ctrl: true, callback: () => {/*Open add book modal*/}},
+  ], !isModalOpen);
+
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border dark:bg-gray-900">
+      <header className="border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-6">
             <div>
@@ -115,6 +127,7 @@ export default function LibraryPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-4">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <SearchBar
+                ref={searchInputRef}
                 value={searchQuery}
                 onChange={setSearchQuery}
               />
@@ -169,6 +182,7 @@ export default function LibraryPage() {
             books={filteredBooks}
             onDelete={(id) => deleteBook(id)}
             onUpdate={() => loadBooks(searchQuery)}
+            onModalStateChange={setIsModalOpen}
           />
         )}
       </div>

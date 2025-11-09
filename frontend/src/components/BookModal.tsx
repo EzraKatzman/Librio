@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useToast } from "../context/ToastContext";
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 
 interface BookModalProps {
   book: any;
@@ -39,8 +40,6 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
     setRating(book.rating || 0);
   }, [book]);
 
-  if (!isOpen) return null;
-
   const handleSave = () => {
     const finalRating = hoveredRating || rating;
     onEdit({ readStatus, rating: finalRating });
@@ -59,6 +58,14 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
   const handleStarClick = (value: number) => {
     setRating(value);
   };
+
+  useKeyboardShortcuts([
+    { key: 'Escape', callback: onClose },
+    { key: 's', ctrl: true, callback: handleSave },
+    { key: 'Delete', callback: onDelete }
+  ], isOpen);
+
+  if (!isOpen) return null;
 
   const renderStars = () => {
     const stars = [];
@@ -112,7 +119,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-md shadow-xl max-w-2xl w-full p-6 flex gap-8 relative"
+        className="bg-background dark:bg-border text-foreground rounded-md shadow-xl max-w-2xl w-full p-6 flex gap-8 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Book Cover - Left Side */}
@@ -156,7 +163,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
             <label htmlFor="readStatus" className="block text-sm font-semibold">
               Progress
             </label>
-            <div className="relative inline-flex bg-border/20 rounded-full">
+            <div className="relative inline-flex bg-border-light rounded-full">
               {/* Sliding highlight */}
               <div
                 className="absolute top-0 h-full bg-primary rounded-full transition-all duration-300 ease-in-out"

@@ -7,29 +7,32 @@ interface BookListProps {
   books: any[];
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
-  onUpdate?: () => void; // Callback to refresh book list
+  onUpdate?: () => void;
+  onModalStateChange?: (isOpen: boolean) => void; // Track modal state
 }
 
-export default function BookList({ books, onEdit, onDelete, onUpdate }: BookListProps) {
+export default function BookList({ books, onEdit, onDelete, onUpdate, onModalStateChange }: BookListProps) {
   const [selectedBook, setSelectedBook] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCardClick = (book: any) => {
     setSelectedBook(book);
     setIsModalOpen(true);
+    onModalStateChange?.(true);
   };
 
   const handleEdit = async (updates: any) => {
     if (selectedBook) {
       try {
         await updateBook(selectedBook.id, updates);
-        if (onUpdate) onUpdate(); // Refresh the book list
+        if (onUpdate) onUpdate();
         if (onEdit) onEdit(selectedBook.id);
       } catch (error) {
         console.error('Failed to update book:', error);
       }
     }
     setIsModalOpen(false);
+    onModalStateChange?.(false);
   };
 
   const handleDelete = () => {
@@ -37,6 +40,12 @@ export default function BookList({ books, onEdit, onDelete, onUpdate }: BookList
       onDelete(selectedBook.id);
     }
     setIsModalOpen(false);
+    onModalStateChange?.(false);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    onModalStateChange?.(false);
   };
 
   return (
@@ -55,7 +64,7 @@ export default function BookList({ books, onEdit, onDelete, onUpdate }: BookList
         <BookModal
           book={selectedBook}
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={handleClose}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

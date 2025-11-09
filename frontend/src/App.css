@@ -95,13 +95,14 @@
     --foreground: hsl(15 18% 12%);
     --primary-foreground: oklch(0.98 0 0);
     --destructive: hsl(0 70% 42%);
-    --destructive-foreground: oklch(0.98 0 0);
+    --destructive-light: hsl(0 51% 88%);
     --info: hsl(209 70% 42%);
-    --info-foreground: ocklch(0.98 0 0);
+    --info-light: hsl(209 51% 88%);
     --confirm: hsl(103 70% 42%);
-    --confirm-foreground: oklch(0.98 0 0);
+    --confirm-light: hsl(103 51% 88%);
     --neutral: hsla(210, 14%, 34%);
     --border: hsl(12 18% 89%);
+    --border-light: hsl(12 18% 98%);
 }
 
 .dark {
@@ -113,6 +114,7 @@
     --destructive: oklch(0.396 0.141 25.723);
     --destructive-foreground: oklch(0.92 0 0);
     --border: oklch(0.22 0 0);
+    --border-light: hsl(15 5% 14%);
 }
 
 @theme inline {
@@ -125,11 +127,12 @@
     --color-compliment: var(--compliment);
     --color-compliment-light: var(--compliment-light);
     --color-destructive: var(--destructive);
-    --color-destructive-foreground: var(--destructive-foreground);
+    --color-destructive-light: var(--destructive-light);
     --color-info: var(--info);
-    --color-info-foreground: var(--info-foreground);
+    --color-info-light: var(--info-light);
     --color-confirm: var(--confirm);
-    --color-confirm-foreground: var(--confirm-foreground);
+    --color-confirm-light: var(--confirm-light);
     --color-neutral: var(--neutral);
     --color-border: var(--border);
+    --color-border-light: var(--border-light);
 }

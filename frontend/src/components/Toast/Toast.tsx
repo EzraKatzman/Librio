@@ -1,9 +1,9 @@
 import { useToast, type Toast as ToastType } from "../../context/ToastContext";
 
 const TOAST_COLORS = {
-    success: "text-confirm bg-confirm/20 border-border",
-    error: "text-destructive bg-destructive/20 border-border",
-    info: "text-info bg-info/20 border-border",
+    success: "text-confirm bg-confirm-light border-border",
+    error: "text-destructive bg-destructive-light border-border",
+    info: "text-info bg-info-light border-border",
 };
 
 const TOAST_ICONS = {
