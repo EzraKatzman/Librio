@@ -11,6 +11,7 @@ interface Book {
     rating?: number;
     readStatus?: "unread" | "reading" | "finished";
     ebookPath?: string;
+    dateAdded: string;
 }
 
 interface BooksStore {

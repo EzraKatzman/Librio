@@ -7,8 +7,8 @@ interface BookCardProps {
 
 const STATUS_INFO: { [key: string]: { label: string; color: string } } = {
   unread: { label: "Unread", color: "bg-neutral/90 text-white" },
-  reading: { label: "In Progress", color: "bg-info text-white" },
-  finished: { label: "Complete", color: "bg-confirm text-white" },
+  reading: { label: "Reading", color: "bg-info text-white" },
+  finished: { label: "Finished", color: "bg-confirm text-white" },
 };
 
 export default function BookCard({ book, onClick }: BookCardProps) {
@@ -19,7 +19,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
   return (
     <div 
       onClick={onClick}
-      className="group relative overflow-hidden cursor-pointer h-70 w-45"
+      className="group relative overflow-hidden cursor-pointer h-67.5 w-45 rounded-sm"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -47,7 +47,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
             <h3 className="font-semibold text-lg mb-1">
               {book.title}
             </h3>
-            <p className="text-sm text-white/90 leading-none mb-2">
+            <p className="text-sm text-white/90 mb-2">
               {book.author}
             </p>
 
@@ -57,7 +57,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
                 {book.genres.slice(0, 2).map((genre: string, index: number) => (
                   <span 
                     key={index}
-                    className="inline-block px-2 py-1 bg-white/20 backdrop-blur-sm rounded text-xs"
+                    className="inline-block px-2 py-1 bg-border/20 backdrop-blur-sm rounded text-xs"
                   >
                     {genre}
                   </span>

@@ -44,36 +44,37 @@ export default function SortDropdown({ currentSort, onSortChange }: SortDropdown
   const currentSortLabel = SORT_OPTIONS.find(opt => opt.value === currentSort)?.label || "Sort";
 
   return (
-    <div className="relative">
+    <div className="relative shrink min-w-0">
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative py-2.5 px-4 rounded-lg bg-border/20 hover:bg-border/30 text-primary focus-ring-primary cursor-pointer flex items-center gap-2"
+        className="relative py-2 px-4 rounded-lg bg-border/20 hover:bg-border/30 text-primary focus-ring-primary cursor-pointer flex items-center gap-2"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
         </svg>
+        <span className="hidden lg:inline">{currentSortLabel}</span>
       </button>
 
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute right-0 top-full mt-2 w-56 bg-primary-light border border-border rounded-lg shadow-xl z-50 py-2"
+          className="absolute left-0 top-full mt-2 w-56 bg-white border border-border rounded-lg shadow-xl z-50 p-1 space-y-1"
         >
           {SORT_OPTIONS.map(option => (
             <button
               key={option.value}
               onClick={() => handleSortSelect(option.value)}
-              className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer ${
+              className={`w-full flex justify-between text-left px-4 py-2.5 text-sm transition-colors cursor-pointer rounded-md ${
                 currentSort === option.value
                   ? "bg-primary/10 text-primary font-semibold"
-                  : "text-foreground hover:bg-border/20"
+                  : "text-foreground hover:bg-border/30"
               }`}
             >
-              {option.value === currentSort && (
-                <span className="mr-2">✓</span>
-              )}
               {option.label}
+              {option.value === currentSort && (
+                <span className="h-5 w-5 -mr-2 shrink-0">✓</span>
+              )}
             </button>
           ))}
         </div>

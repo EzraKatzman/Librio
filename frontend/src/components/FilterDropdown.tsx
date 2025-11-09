@@ -15,7 +15,7 @@ export interface FilterOptions {
 
 const READ_STATUSES = [
   { value: "unread", label: "Unread", color: "bg-neutral/90 text-white" },
-  { value: "reading", label: "In Progress", color: "bg-info text-white" },
+  { value: "reading", label: "Reading", color: "bg-info text-white" },
   { value: "finished", label: "Finished", color: "bg-confirm text-white" }
 ];
 
@@ -102,7 +102,6 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
     setRating(0);
     setGenres([]);
     onFilterChange({ readStatus: [], rating: 0, genres: []});
-    setIsOpen(false);
   };
 
   const applyFilters = () => {
@@ -151,11 +150,32 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
           ref={dropdownRef}
           className="absolute left-0 top-full mt-2 w-96 bg-white border border-border rounded-lg shadow-xl z-50 flex flex-col max-h-[80vh]"
         >
+          <div className="relative border-b border-border py-4">
+            <span className="text-md font-semibold block text-center">Filters</span>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-destructive rounded-full transition-colors focus-ring-primary cursor-pointer"
+              >
+              <svg 
+                className="w-5 h-5" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
           {/* Scrollable Content */}
-          <div className="overflow-y-auto p-4 space-y-6">
+          <div className="overflow-y-auto p-4 space-y-4">
             {/* Read Status Pills */}
-            <div>
-              <label className="block text-sm font-semibold mb-3">Read Status</label>
+            <div className="border-b border-border pb-4">
+              <label className="block text-sm font-semibold mb-3">Progress</label>
               <div className="flex flex-wrap gap-2">
                 {READ_STATUSES.map(status => (
                   <button
@@ -164,7 +184,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                       readStatus.includes(status.value)
                         ? status.color
-                        : "bg-border/20 text-foreground hover:bg-border/30"
+                        : "bg-border/20 text-foreground hover:bg-border/40"
                     }`}
                   >
                     {status.label}
@@ -174,11 +194,11 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
             </div>
 
             {/* Rating Slider */}
-            <div>
-              <label className="block text-sm font-semibold mb-3">
-                Minimum Rating {rating > 0 && `(${rating} stars)`}
+            <div className="border-b border-border pb-4">
+              <label className="block text-sm font-semibold mb-1">
+                Rating {rating > 0 && `(${rating} stars)`}
               </label>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <div className="relative">
                   <input
                     type="range"
@@ -232,7 +252,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
           <div className="border-t border-border p-4 bg-card rounded-b-lg flex items-center justify-between gap-3">
             <button
               onClick={clearFilters}
-              className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-destructive transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={readStatus.length === 0 && rating === 0 && genres.length === 0}
             >
               Clear

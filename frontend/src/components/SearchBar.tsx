@@ -6,7 +6,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ value, onChange, placeholder = "Search by title or author..." }: SearchBarProps) {
     return (
-        <div className="relative w-full max-w-2xl mx-auto ml-4">
+        <div className="relative min-w-[180px] max-w-2xl ml-4">
             <div>
                 <input
                     type="text"

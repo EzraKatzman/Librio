@@ -86,7 +86,7 @@ export default function LibraryPage() {
         filtered.sort((a, b) => (a.rating || 0) - (b.rating || 0));
         break;
       case "date_desc":
-      default:
+        filtered.sort((a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime());
         break;
     }
 
@@ -113,7 +113,7 @@ export default function LibraryPage() {
       <div className="border-b border-border bg-card">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-4">
-            <div className="relative flex items-center gap-2 flex-1 sm:max-w-md">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
               <SearchBar
                 value={searchQuery}
                 onChange={setSearchQuery}
