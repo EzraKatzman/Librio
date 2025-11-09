@@ -116,7 +116,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative py-2.5 px-4 rounded-lg bg-border/20 hover:bg-border/40 text-primary focus-ring-primary cursor-pointer"
+        className="relative py-2.5 px-4 rounded-lg bg-border/20 hover:bg-border/40 text-primary focus-ring-primary cursor-pointer active:scale-95 transition-transform duration-100"
       >
         <svg
           viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-5 h-5"
+          className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-90' : 'rotate-0'}`}
         >
           <line x1="12" y1="9" x2="12" y2="22" />
           <line x1="12" y1="2" x2="12" y2="5" />
@@ -157,7 +157,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
               className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-destructive rounded-full transition-colors focus-ring-primary cursor-pointer"
               >
               <svg 
-                className="w-5 h-5" 
+                className="h-5 w-5"
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -196,7 +196,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
             {/* Rating Slider */}
             <div className="border-b border-border pb-4">
               <label className="block text-sm font-semibold mb-1">
-                Rating {rating > 0 && `(${rating} stars)`}
+                Rating {rating > 0 && `(${rating}+)`}
               </label>
               <div className="space-y-1">
                 <div className="relative">

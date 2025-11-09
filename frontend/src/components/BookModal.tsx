@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface BookModalProps {
   book: any;
@@ -18,6 +18,19 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
   const [readStatus, setReadStatus] = useState(book.readStatus || 'unread');
   const [rating, setRating] = useState(book.rating || 0);
   const [hoveredRating, setHoveredRating] = useState(0);
+  const [highlightStyle, setHighlightStyle] = useState({ width: 0, left: 0 });
+  const buttonRefs = useRef<HTMLButtonElement[]>([]);
+
+  useEffect(() => {
+    const index = READ_STATUSES.findIndex(s => s.value === readStatus);
+    const button = buttonRefs.current[index];
+    if (button) {
+      setHighlightStyle({
+        width: button.offsetWidth,
+        left: button.offsetLeft,
+      });
+    }
+  }, [readStatus]);
 
   useEffect(() => {
     setReadStatus(book.readStatus || 'unread');
@@ -131,24 +144,29 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
           )}
 
           {/* Read Status */}
-          <div className="space-y-2 mb-1">
+          <div className="space-y-2 mb-1 relative">
             <label htmlFor="readStatus" className="block text-sm font-semibold">
               Progress
             </label>
-            <div className="inline-flex bg-border/20 rounded-full gap-1">
-              {READ_STATUSES.map((status) => {
+            <div className="relative inline-flex bg-border/20 rounded-full">
+              {/* Sliding highlight */}
+              <div
+                className="absolute top-0 h-full bg-primary rounded-full transition-all duration-300 ease-in-out"
+                style={{
+                  width: highlightStyle.width,
+                  left: highlightStyle.left,
+                }}
+              />
+
+              {READ_STATUSES.map((status, index) => {
                 const isActive = readStatus === status.value;
-              
                 return (
                   <button
                     key={status.value}
+                    ref={e => { buttonRefs.current[index] = e!}}
                     onClick={() => setReadStatus(status.value)}
-                    className={`
-                      px-3 py-1 rounded-full text-sm font-medium transition-all cursor-pointer
-                      ${isActive 
-                        ? "bg-primary text-white font-semibold" 
-                        : "text-gray-700 hover:bg-border/40"
-                      }
+                    className={`relative z-10 px-4 py-1 rounded-full text-sm font-medium cursor-pointer transition-colors duration-300
+                      ${isActive ? "text-white font-semibold" : "text-gray-700 hover:text-gray-900"}
                     `}
                   >
                     {status.label}
@@ -160,7 +178,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
 
           {/* Star Rating */}
           <div className="flex items-center gap-2">
-            <div className="flex gap-1">
+            <div className="flex gap-0">
               {renderStars()}
             </div>
             {rating > 0 && (
@@ -174,13 +192,17 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
           <div className="flex gap-3 border-t border-border pt-4">
             <button 
               onClick={handleSave}
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors focus-ring-primary focus:ring-destructive/40 focus:bg-primary/90 cursor-pointer"
+              className="px-4 py-2 bg-primary text-white rounded 
+                hover:bg-primary/90 transition-colors 
+                focus-ring-primary focus:ring-destructive/40 focus:bg-primary/90 cursor-pointer"
             >
               Save
             </button>
             <button 
               onClick={onDelete}
-              className=" flex items-center gap-2 px-4 py-2 bg-border/30 text-foreground/80 hover:bg-destructive/10 hover:text-destructive rounded transition-colors focus-ring-primary focus:bg-destructive/10 cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 bg-border/30 text-foreground/80 
+                hover:bg-destructive/10 hover:text-destructive rounded transition-colors 
+                focus-ring-primary focus:bg-destructive/10 cursor-pointer"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
@@ -189,7 +211,9 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
             </button>
             <button 
               onClick={onClose}
-              className="absolute top-2 right-2 p-1 text-gray-700 hover:bg-destructive/10 hover:text-destructive rounded-full transition-colors focus-ring-primary cursor-pointer"
+              className="absolute top-2 right-2 p-1 text-gray-700 
+                hover:bg-destructive/10 hover:text-destructive rounded-full 
+                transition-colors focus-ring-primary cursor-pointer"
             >
               <svg 
                 className="w-5 h-5" 

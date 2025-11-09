@@ -130,7 +130,11 @@ export default function LibraryPage() {
               />
             </div>
             <div className="flex items-center">
-              <button onClick={handleAdd} className="px-4 py-2 mr-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 focus-ring-primary focus:ring-destructive/40 focus:bg-primary/90 cursor-pointer">
+              <button onClick={handleAdd} 
+                className="px-4 py-2 mr-4 rounded-lg bg-primary text-primary-foreground 
+                  hover:bg-primary/90 focus-ring-primary focus:ring-destructive/40 
+                  focus:bg-primary/90 cursor-pointer
+                  active:scale-95 transition-transform duration-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
