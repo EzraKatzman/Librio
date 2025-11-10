@@ -2,12 +2,8 @@
 - Dark mode
 - Companion scanner app
 - *Abstraction*
-- Toast notifications
-    - For adding book
-
-- Keyboard shortcuts
-    - Ctrl + A -> add book
-    - Ctrl + E -> edit book (when book selected)
+- Resolve genre list on modal
+- Option to add genre from available
 
 ### Bugs:
 
