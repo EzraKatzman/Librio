@@ -1,6 +1,8 @@
 ### TODO:
 - Companion scanner app
 - *Abstraction*
+- Resolve genre list on modal
+- Option to add genre from available
 
 ### Bugs:
 
