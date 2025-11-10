@@ -1,8 +1,7 @@
 import './App.css'
 
 import LibraryPage from "./pages/LibraryPage";
-import AddBookPage from "./pages/AddBookPage";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { ToastProvider } from './context/ToastContext';
 import ToastContainer from './components/Toast/ToastContainer';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
@@ -24,12 +23,6 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="p-4 border-b border-border flex gap-4 items-center">
-        <Link to="/" className="text-primary font-bold hover:text-primary/80 transition-colors">
-          Library
-        </Link>
-        <Link to="/add" className="text-primary font-bold hover:text-primary/80 transition-colors">
-          Add Book
-        </Link>
         
         {/* Theme Toggle Button */}
         <button
@@ -52,7 +45,6 @@ function AppContent() {
       </div>
       <Routes>
         <Route path="/" element={<LibraryPage />} />
-        <Route path="/add" element={<AddBookPage />} />
       </Routes>
       <ToastContainer />
     </div>

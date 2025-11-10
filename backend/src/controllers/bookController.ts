@@ -1,5 +1,5 @@
 import type express from "express";
-import { fetchBookByISBM } from "../services/googleBooks.js";
+import { fetchBookByISBN } from "../services/googleBooks.js";
 import { prisma } from "../db/connection.js";
 
 export const addBookByISBN = async (req: express.Request, res: express.Response) => {
@@ -9,7 +9,7 @@ export const addBookByISBN = async (req: express.Request, res: express.Response)
         const existing = await prisma.book.findUnique({where: { isbn } });
         if (existing) return res.status(200).json(existing);
 
-        const metadata = await fetchBookByISBM(isbn);
+        const metadata = await fetchBookByISBN(isbn);
         if (!metadata) return res.status(404).json({ error: "Book not found" });
 
         const newBook = await prisma.book.create({

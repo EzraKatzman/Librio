@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BookCard from "./BookCard";
-import BookModal from "./BookModal";
+import BookModal from "./Modals/BookModal";
 import { updateBook } from "../api/books";
 
 interface BookListProps {

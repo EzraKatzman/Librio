@@ -54,7 +54,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
             {/* Genre Badges */}
             {book.genres && book.genres.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-1">
-                {book.genres.slice(0, 2).map((genre: string, index: number) => (
+                {book.genres.slice(0, 1).map((genre: string, index: number) => (
                   <span 
                     key={index}
                     className="inline-block px-2 py-1 bg-border/20 backdrop-blur-md rounded text-xs"

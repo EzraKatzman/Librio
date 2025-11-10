@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useToast } from "../context/ToastContext";
-import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { useToast } from "../../context/ToastContext";
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 
 interface BookModalProps {
   book: any;
@@ -150,7 +150,7 @@ export default function BookModal({ book, isOpen, onClose, onEdit, onDelete }: B
           {/* Genre Badges */}
           {book.genres && book.genres.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {book.genres.map((genre: string, index: number) => (
+              {book.genres.slice(0, 3).map((genre: string, index: number) => (
                 <span 
                   key={index}
                   className="px-3 py-1 bg-red-200 text-red-800 text-sm rounded-full font-medium"

@@ -1,6 +1,8 @@
 import axios from "axios";
+import { fetchSubjectsByISBN } from "./openLibrary";
+import { parseGenres } from "../utils/genParser";
 
-export async function fetchBookByISBM(isbn: string) {
+export async function fetchBookByISBN(isbn: string) {
     try {
         const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
         const res = await axios.get(url);
@@ -9,10 +11,18 @@ export async function fetchBookByISBM(isbn: string) {
         if (!item) return null;
 
         const volume = item.volumeInfo;
+
+        const googleGenres = volume.categories || [];
+        const openLibrarySubjects = await fetchSubjectsByISBN(isbn);
+        const mergedGenres = Array.from(
+            new Set([...googleGenres, ...openLibrarySubjects])
+        );
+        const normalizedGenres = parseGenres(mergedGenres);
+
         return {
             title: volume.title,
             author: volume.authors?.join(", ") || "Unknown Author",
-            genres: volume.categories || [],
+            genres: normalizedGenres,
             coverUrl: volume.imageLinks?.thumbnail || "",
         };
     } catch (err) {

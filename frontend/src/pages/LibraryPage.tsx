@@ -4,6 +4,7 @@ import BookList from "../components/BookList";
 import SearchBar from "../components/SearchBar";
 import FilterDropdown, { type FilterOptions } from "../components/FilterDropdown";
 import SortDropdown from "../components/SortDropdown";
+import AddBookModal from "../components/Modals/AddBookModal";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 
 export default function LibraryPage() {
@@ -16,15 +17,14 @@ export default function LibraryPage() {
   });
 
   const [sortBy, setSortBy] = useState("date_desc");
-  const [isbn, setIsbn] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAdd = async () => {
-    if (!isbn) return;
+  const handleAdd = async (isbn: string) => {
     await addBook(isbn);
-    setIsbn("");
+    await loadBooks(searchQuery);
   };
 
   useEffect(() => {
@@ -102,8 +102,11 @@ export default function LibraryPage() {
         searchInputRef.current?.focus();
       }
     },
-    { key: 'a', ctrl: true, callback: () => {/*Open add book modal*/}},
-  ], !isModalOpen);
+    { key: 'a', ctrl: true, 
+      callback: () => {
+        setIsAddModalOpen(true);
+      }},
+  ], !isAddModalOpen && !isModalOpen);
 
   return (
     <div className="min-h-screen bg-background">
@@ -143,7 +146,8 @@ export default function LibraryPage() {
               />
             </div>
             <div className="flex items-center">
-              <button onClick={handleAdd} 
+              <button 
+                onClick={() => setIsAddModalOpen(true)}
                 className="px-4 py-2 mr-4 rounded-lg bg-primary text-primary-foreground 
                   hover:bg-primary/90 focus-ring-primary focus:ring-destructive/40 
                   focus:bg-primary/90 cursor-pointer
@@ -186,6 +190,11 @@ export default function LibraryPage() {
           />
         )}
       </div>
+      <AddBookModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onAdd={handleAdd}
+      />
     </div>
   );
 }
