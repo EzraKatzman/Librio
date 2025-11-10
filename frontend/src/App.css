@@ -108,13 +108,14 @@
 .dark {
     --primary: hsl(350 75% 58%);
     --primary-light: oklch(0.18 0.03 250);
-    --background: oklch(0.12 0 0);
+    --background: hsl(230 15% 10%);
     --foreground: oklch(0.92 0 0);
     --primary-foreground: oklch(0.12 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.92 0 0);
-    --border: oklch(0.22 0 0);
-    --border-light: hsl(15 5% 14%);
+    --destructive: hsl(0 65% 60%);
+    --destructive-light: hsl(0 55% 18%);
+    --border: hsl(230 12% 16%);
+    --border-orig: hsl(12, 18%, 89%);
+    --border-light: hsl(230 12% 20%);
 }
 
 @theme inline {
@@ -135,4 +136,5 @@
     --color-neutral: var(--neutral);
     --color-border: var(--border);
     --color-border-light: var(--border-light);
+    --color-border-orig: var(--border-orig);
 }

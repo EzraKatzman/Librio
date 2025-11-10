@@ -47,7 +47,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
             <h3 className="font-semibold leading-5 text-lg mb-1">
               {book.title}
             </h3>
-            <p className="text-sm text-white/90 mb-2">
+            <p className="text-sm text-background/80 dark:text-foreground/80 mb-2">
               {book.author}
             </p>
 
@@ -57,7 +57,7 @@ export default function BookCard({ book, onClick }: BookCardProps) {
                 {book.genres.slice(0, 1).map((genre: string, index: number) => (
                   <span 
                     key={index}
-                    className="inline-block px-2 py-1 bg-border/20 backdrop-blur-md rounded text-xs"
+                    className="inline-block px-2 py-1 bg-border/20 dark:bg-border-orig/20 backdrop-blur-md rounded text-xs"
                   >
                     {genre}
                   </span>

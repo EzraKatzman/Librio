@@ -123,7 +123,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative py-2.5 px-4 rounded-lg bg-border-light hover:bg-border/40 text-primary focus-ring-primary cursor-pointer active:scale-95 transition-transform duration-100"
+        className="relative py-2.5 px-4 rounded-lg bg-border-light hover:bg-border/40 dark:hover:bg-border text-primary focus-ring-primary cursor-pointer active:scale-95 transition-transform duration-100"
       >
         <svg
           viewBox="0 0 24 24"
@@ -191,7 +191,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                       readStatus.includes(status.value)
                         ? status.color
-                        : "bg-border-light text-foreground hover:bg-border/40"
+                        : "bg-border-light text-foreground hover:bg-border/40 dark:hover:bg-border"
                     }`}
                   >
                     {status.label}
@@ -221,7 +221,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                     } as React.CSSProperties}
                   />
                 </div>
-                <div className="flex justify-between text-xs text-gray-500">
+                <div className="flex justify-between text-xs text-foreground/70">
                   <span>Any</span>
                   <span>1★</span>
                   <span>2★</span>
@@ -243,8 +243,8 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
                       onClick={() => toggleGenre(genre)}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                         genres.includes(genre)
-                          ? "bg-red-200 text-red-800"
-                          : "bg-border-light text-foreground hover:bg-border/40"
+                          ? "bg-red-200 dark:bg-red-300 text-red-800 dark:text-red-900"
+                          : "bg-border-light text-foreground hover:bg-border/40 dark:hover:bg-border"
                       }`}
                     >
                       {genre}
@@ -259,7 +259,7 @@ export default function FilterDropdown({ onFilterChange, availableGenres, curren
           <div className="border-t border-border p-4 bg-background text-foreground rounded-b-lg flex items-center justify-between gap-3">
             <button
               onClick={clearFilters}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-destructive transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-forground/80 hover:text-destructive transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={readStatus.length === 0 && rating === 0 && genres.length === 0}
             >
               Clear

@@ -50,7 +50,7 @@ export default function AddBookModal({ isOpen, onClose, onAdd }: AddBookModalPro
           onClick={handleClose}
         >
           <div 
-            className="bg-background dark:bg-border text-foreground rounded-lg shadow-xl max-w-md w-full p-6"
+            className="bg-background text-foreground rounded-lg shadow-xl max-w-md w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
@@ -58,7 +58,7 @@ export default function AddBookModal({ isOpen, onClose, onAdd }: AddBookModalPro
               <button
                 onClick={handleClose}
                 disabled={isLoading}
-                className="text-gray-700 p-1
+                className="text-foreground/80 p-1
                 hover:bg-destructive/10 hover:text-destructive rounded-full 
                 transition-colors focus-ring-primary cursor-pointer"
               >
@@ -103,7 +103,7 @@ export default function AddBookModal({ isOpen, onClose, onAdd }: AddBookModalPro
                   type="button"
                   onClick={handleClose}
                   disabled={isLoading}
-                  className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-4 py-2  text-foreground/80 bg-border/70 hover:bg-border/50 dark:bg-border-light/30 dark:hover:bg-border-light/50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
