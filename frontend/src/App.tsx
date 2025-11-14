@@ -6,9 +6,12 @@ import { ToastProvider } from './context/ToastContext';
 import ToastContainer from './components/Toast/ToastContainer';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import { useWebSocket } from './hooks/useWebSocket';
 
 function AppContent() {
   const { toggleTheme, isDark } = useTheme();
+
+  useWebSocket();
 
   // Global keyboard shortcut for theme toggle
   useKeyboardShortcuts([

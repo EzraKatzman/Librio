@@ -1,4 +1,5 @@
 import type express from "express";
+import { emitBookAdded, emitBookUpdated, emitBookDeleted } from "../services/websocket.js";
 import { fetchBookByISBN } from "../services/googleBooks.js";
 import { prisma } from "../db/connection.js";
 
@@ -7,7 +8,10 @@ export const addBookByISBN = async (req: express.Request, res: express.Response)
 
     try {
         const existing = await prisma.book.findUnique({where: { isbn } });
-        if (existing) return res.status(200).json(existing);
+        if (existing) {
+            emitBookAdded(existing);
+            return res.status(200).json(existing);
+        }
 
         const metadata = await fetchBookByISBN(isbn);
         if (!metadata) return res.status(404).json({ error: "Book not found" });
@@ -15,6 +19,8 @@ export const addBookByISBN = async (req: express.Request, res: express.Response)
         const newBook = await prisma.book.create({
             data: { isbn, ...metadata },
         });
+
+        emitBookAdded(newBook);
 
         res.status(201).json(newBook);
     } catch (err) {
@@ -82,6 +88,9 @@ export const updateBook = async (req: express.Request, res: express.Response) =>
         }
 
         const updatedBook = await prisma.book.update({ where: { id }, data });
+
+        emitBookUpdated(updatedBook);
+
         res.json(updatedBook);
     } catch (err) {
         console.error(err);
@@ -93,6 +102,7 @@ export const deleteBook = async (req: express.Request, res: express.Response) =>
     const { id } = req.params;
     try {
         await prisma.book.delete({ where: { id } });
+        emitBookDeleted(id);
         res.json({ success: true });
     } catch (err) {
         console.error(err);

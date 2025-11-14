@@ -20,6 +20,9 @@ interface BooksStore {
     addBook: (isbn: string) => Promise<void>;
     updateBook: (id: string, data: Partial<Book>) => Promise<void>;
     deleteBook: (id: string) => Promise<void>;
+    addBookFromSocket: (book: Book) => void;
+    updateBookFromSocket: (book: Book) => void;
+    deleteBookFromSocket: (id: string) => void;
 }
 
 export const useBooksStore = create<BooksStore>((set, get) => ({
@@ -38,6 +41,18 @@ export const useBooksStore = create<BooksStore>((set, get) => ({
     },
     deleteBook: async (id: string) => {
         await deleteBook(id);
+        set({ books: get().books.filter(b => b.id !== id) });
+    },
+    addBookFromSocket: (book: Book) => {
+        const exists = get().books.some(b => b.id === book.id);
+        if (!exists) {
+            set({ books: get().books.filter(b => b.id === book.id) });
+        }
+    },
+    updateBookFromSocket: (book: Book) => {
+        set({ books: get().books.map(b => (b.id === book.id ? book : b)) });
+    },
+    deleteBookFromSocket: (id: string) => {
         set({ books: get().books.filter(b => b.id !== id) });
     },
 }));
